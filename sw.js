@@ -10,7 +10,8 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   const r = e.request
-  if (r.method !== 'GET' || new URL(r.url).origin !== self.location.origin) return
+  const url = new URL(r.url)
+  if (r.method !== 'GET' || url.origin !== self.location.origin || url.searchParams.has('versiecheck')) return
   if (r.mode === 'navigate') {
     e.respondWith(fetch(r).then((antw) => {
       const kopie = antw.clone()
